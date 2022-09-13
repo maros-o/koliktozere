@@ -1,9 +1,13 @@
 import React from 'react'
+import DeviceItem from './DeviceItem'
 
 export default function DeviceList() {
   return (
     <div>
-      <div className='text-xl font-semibold border text-center m-4'>Spotřebiče</div>
+      <div className='text-2xl text-center m-2 underline border rounded'>Spotřebiče</div>
+      <div>
+        <DeviceItem />
+      </div>
     </div>
   )
 }
