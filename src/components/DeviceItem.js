@@ -14,9 +14,9 @@ export const WATT_PREFIXES = {
 
 export default function DeviceItem() {
   const [name, setName] = useState("");
-  const [hours, setHours] = useState(8);
+  const [hours, setHours] = useState(0);
   const [timeSpan, setTimeSpan] = useState(TIME_SPANS.DEFAULT);
-  const [watts, setWatts] = useState(200);
+  const [watts, setWatts] = useState(0);
   const [wattPrefix, setWattPrefix] = useState(WATT_PREFIXES.NONE);
 
   const handleName = (e) => {
@@ -65,7 +65,7 @@ export default function DeviceItem() {
   };
 
   return (
-    <form className="m-2 border border-neutral-500 border-2 rounded-lg p-3">
+    <form className="m-2 border-neutral-500 border-2 rounded-lg p-3">
       <label className="m-1">
         <input
           className="form-input px-4 py-1 rounded-lg text-center w-32"
@@ -92,6 +92,7 @@ export default function DeviceItem() {
         <select
           className="rounded-lg py-1"
           id="timeSpan"
+          value={timeSpan}
           onChange={handleTimeSpan}
         >
           <option>{TIME_SPANS.DAY}</option>
@@ -115,6 +116,7 @@ export default function DeviceItem() {
         <select
           className="rounded-lg py-1"
           id="wattPrefix"
+          value={wattPrefix}
           onChange={handleWattPrefix}
         >
           <option>{WATT_PREFIXES.NONE}</option>

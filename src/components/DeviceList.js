@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useReducer } from "react";
 import DeviceItem from './DeviceItem'
 
 export default function DeviceList() {
