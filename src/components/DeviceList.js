@@ -1,13 +1,14 @@
-import React, { useReducer } from "react";
-import DeviceItem from './DeviceItem'
+import React from "react";
+import DeviceItem from "./DeviceItem";
 
-export default function DeviceList() {
+export default function DeviceList({ devices, dispatch }) {
   return (
     <div>
-      <div className='text-2xl text-center m-2 underline border rounded'>Spotřebiče</div>
-      <div>
-        <DeviceItem />
-      </div>
+      {devices.map((dev, idx) => {
+        return (
+          <DeviceItem key={idx} device={dev} idx={idx} dispatch={dispatch} />
+        );
+      })}
     </div>
-  )
+  );
 }

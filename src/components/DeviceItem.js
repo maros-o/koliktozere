@@ -1,23 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import {
+  TIME_SPANS,
+  WATT_PREFIXES,
+  ACTION_TYPES,
+} from "../components/GlobalVariables";
 
-export const TIME_SPANS = {
-  DAY: "denně",
-  WEEK: "týdně",
-  MONTH: "měsíčně",
-  DEFAULT: "denně",
-};
+export default function DeviceItem({ device, idx, dispatch }) {
+  const [name, setName] = useState(device.name);
+  const [hours, setHours] = useState(device.hours);
+  const [timeSpan, setTimeSpan] = useState(device.timeSpan);
+  const [watts, setWatts] = useState(device.watts);
+  const [wattPrefix, setWattPrefix] = useState(device.wattPrefix);
 
-export const WATT_PREFIXES = {
-  NONE: "W",
-  KILO: "kW",
-};
+  useEffect(() => {
+    setName(device.name);
+    setHours(device.hours);
+    setTimeSpan(device.timeSpan);
+    setWatts(device.watts);
+    setWattPrefix(device.wattPrefix);
+  }, [device]);
 
-export default function DeviceItem() {
-  const [name, setName] = useState("");
-  const [hours, setHours] = useState(0);
-  const [timeSpan, setTimeSpan] = useState(TIME_SPANS.DEFAULT);
-  const [watts, setWatts] = useState(0);
-  const [wattPrefix, setWattPrefix] = useState(WATT_PREFIXES.NONE);
+  useEffect(() => {
+    dispatch({
+      type: ACTION_TYPES.EDIT,
+      idx: idx,
+      device: {
+        name: name,
+        hours: hours,
+        timeSpan: timeSpan,
+        watts: watts,
+        wattPrefix: wattPrefix,
+      },
+    });
+  }, [name, hours, timeSpan, watts, wattPrefix, dispatch, idx]);
 
   const handleName = (e) => {
     setName(e.target.value);
@@ -65,7 +80,10 @@ export default function DeviceItem() {
   };
 
   return (
-    <form className="m-2 border-neutral-500 border-2 rounded-lg p-3">
+    <div className="my-2 border-neutral-500 border-2 rounded-lg p-3">
+      <div className="text-slate-600 text-xs">
+        {idx} {JSON.stringify(device)}
+      </div>
       <label className="m-1">
         <input
           className="form-input px-4 py-1 rounded-lg text-center w-32"
@@ -76,7 +94,7 @@ export default function DeviceItem() {
         />
       </label>
 
-      <label className="m-1">
+      <label className="m-1 mr-0 ml-4">
         <input
           className="form-input px-4 py-1 rounded-lg w-24 text-center"
           type="number"
@@ -88,7 +106,7 @@ export default function DeviceItem() {
         <span> hodin </span>
       </label>
 
-      <label className="m-1">
+      <label className="m-1 ml-0">
         <select
           className="rounded-lg py-1"
           id="timeSpan"
@@ -101,7 +119,7 @@ export default function DeviceItem() {
         </select>
       </label>
 
-      <label className="m-1">
+      <label className="m-1 ml-4">
         <input
           className="form-input px-4 py-1 rounded-lg w-24 text-center"
           type="number"
@@ -123,6 +141,14 @@ export default function DeviceItem() {
           <option>{WATT_PREFIXES.KILO}</option>
         </select>
       </label>
-    </form>
+      <button
+        className="ml-3 border rounded-lg p-1 border-rose-800 bg-rose-100"
+        onClick={() => {
+          dispatch({ type: ACTION_TYPES.DELETE, idx: idx });
+        }}
+      >
+        Odebrat
+      </button>
+    </div>
   );
 }
