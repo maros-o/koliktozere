@@ -36,7 +36,7 @@ export default function DeviceItem({ device, idx, dispatch }) {
 
   const handleName = (e) => {
     const nameValue = e.target.value;
-    if (nameValue.length > 14) return;
+    if (nameValue.length > 10) return;
     setName(nameValue);
   };
 
@@ -45,7 +45,7 @@ export default function DeviceItem({ device, idx, dispatch }) {
     if (hoursValue < 0) return;
     else if (timeSpan === TIME_SPANS.DAY && hoursValue > 24) return;
     else if (timeSpan === TIME_SPANS.WEEK && hoursValue > 168) return;
-    else if (timeSpan === TIME_SPANS.MONTH && hoursValue > 720) return;
+    else if (timeSpan === TIME_SPANS.MONTH && hoursValue > 730) return;
     setHours(hoursValue);
   };
 
@@ -61,8 +61,9 @@ export default function DeviceItem({ device, idx, dispatch }) {
         break;
       case TIME_SPANS.MONTH:
         setTimeSpan(TIME_SPANS.MONTH);
+        if (hours > 730) setHours(730);
         break;
-        if (hours > 720) setHours(720);
+
       default:
         setTimeSpan(TIME_SPANS.DEFAULT);
         break;

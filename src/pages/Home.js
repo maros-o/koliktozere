@@ -56,51 +56,59 @@ export default function Home() {
   useEffect(() => {
     if (!loading.current) {
       localStorage.setItem("devices", JSON.stringify(devices));
-      calculateResults();
       return;
     }
     loading.current = false;
     dispatch({ type: ACTION_TYPES.INIT });
   }, [devices]);
 
+  useEffect(() => {
+    const calculateResults = () => {
+      let totalCost = 0;
+
+      let resultDevices = devices.map((dev) => {
+        let hoursMultiplier = 1;
+        if (dev.timeSpan === TIME_SPANS.WEEK) hoursMultiplier = 4.28;
+        else if (dev.timeSpan === TIME_SPANS.DAY) hoursMultiplier = 30;
+
+        let wattsMultiplier = 0.001;
+        if (dev.wattPrefix === WATT_PREFIXES.KILO) wattsMultiplier = 1;
+
+        let devCost =
+          energyPrice *
+          dev.hours *
+          hoursMultiplier *
+          dev.watts *
+          wattsMultiplier;
+
+        totalCost += devCost;
+
+        return {
+          name: dev.name,
+          cost: Math.round(devCost * 100) / 100,
+        };
+      });
+
+      resultDevices = resultDevices.map((dev) => {
+        return {
+          ...dev,
+          percentage: Math.round((dev.cost / totalCost) * 10000) / 100,
+        };
+      });
+
+      setResults({
+        devices: resultDevices,
+        totalCost: Math.round(totalCost * 100) / 100,
+      });
+    };
+
+    calculateResults();
+  }, [energyPrice, devices]);
+
   const handleEnergyPriceForm = (e) => {
-    const price = e.target.value;
-    if (price > 0) setEnergyPrice(price);
-  };
-
-  const calculateResults = () => {
-    let totalCost = 0;
-
-    let resultDevices = devices.map((dev) => {
-      let hoursMultiplier = 1;
-      if (dev.timeSpan === TIME_SPANS.WEEK) hoursMultiplier = 4.28;
-      else if (dev.timeSpan === TIME_SPANS.DAY) hoursMultiplier = 30;
-
-      let wattsMultiplier = 0.001;
-      if (dev.wattPrefix === WATT_PREFIXES.KILO) wattsMultiplier = 1;
-
-      let devCost =
-        energyPrice * dev.hours * hoursMultiplier * dev.watts * wattsMultiplier;
-
-      totalCost += devCost;
-
-      return {
-        name: dev.name,
-        cost: Math.round(devCost * 100) / 100,
-      };
-    });
-
-    resultDevices = resultDevices.map((dev) => {
-      return {
-        ...dev,
-        percentage: Math.round((dev.cost / totalCost) * 10000) / 100,
-      };
-    });
-
-    setResults({
-      devices: resultDevices,
-      totalCost: Math.round(totalCost * 100) / 100,
-    });
+    const priceValue = e.target.value;
+    if (priceValue < 0) return;
+    setEnergyPrice(priceValue);
   };
 
   return (
@@ -121,6 +129,12 @@ export default function Home() {
       >
         přidat spotřebič
       </button>
+      {results ? <Results results={results} /> : null}
+    </div>
+  );
+}
+
+/*
       <button
         className="border rounded-lg border-rose-400 bg-rose-100 w-full p-4 my-2"
         onClick={() => {
@@ -128,8 +142,5 @@ export default function Home() {
         }}
       >
         smazat vše
-      </button>
-      {results ? <Results results={results} /> : null}
-    </div>
-  );
-}
+      </button> 
+*/
