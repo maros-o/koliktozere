@@ -11,7 +11,7 @@ export default function EnergyPriceForm( {energyPrice, handleEnergyPriceForm}) {
           name="price"
           value={energyPrice}
           onChange={handleEnergyPriceForm}
-          step="0.2"
+          step="0.1"
         />
         <label className="mx-2">Kč za kW/h</label>
       </div>

@@ -35,25 +35,34 @@ export default function DeviceItem({ device, idx, dispatch }) {
   }, [name, hours, timeSpan, watts, wattPrefix, dispatch, idx]);
 
   const handleName = (e) => {
-    setName(e.target.value);
+    const nameValue = e.target.value;
+    if (nameValue.length > 14) return;
+    setName(nameValue);
   };
 
   const handleHours = (e) => {
-    const hours = e.target.value;
-    if (hours >= 0) setHours(hours);
+    const hoursValue = e.target.value;
+    if (hoursValue < 0) return;
+    else if (timeSpan === TIME_SPANS.DAY && hoursValue > 24) return;
+    else if (timeSpan === TIME_SPANS.WEEK && hoursValue > 168) return;
+    else if (timeSpan === TIME_SPANS.MONTH && hoursValue > 720) return;
+    setHours(hoursValue);
   };
 
   const handleTimeSpan = (e) => {
     switch (e.target.value) {
       case TIME_SPANS.DAY:
         setTimeSpan(TIME_SPANS.DAY);
+        if (hours > 24) setHours(24);
         break;
       case TIME_SPANS.WEEK:
         setTimeSpan(TIME_SPANS.WEEK);
+        if (hours > 168) setHours(168);
         break;
       case TIME_SPANS.MONTH:
         setTimeSpan(TIME_SPANS.MONTH);
         break;
+        if (hours > 720) setHours(720);
       default:
         setTimeSpan(TIME_SPANS.DEFAULT);
         break;
@@ -61,14 +70,14 @@ export default function DeviceItem({ device, idx, dispatch }) {
   };
 
   const handleWatts = (e) => {
-    const watts = e.target.value;
-    if (watts >= 0) setWatts(watts);
+    const wattsValue = e.target.value;
+    if (wattsValue >= 0) setWatts(wattsValue);
   };
 
   const handleWattPrefix = (e) => {
     switch (e.target.value) {
       case WATT_PREFIXES.NONE:
-        setWattPrefix(TIME_SPANS.NONE);
+        setWattPrefix(WATT_PREFIXES.NONE);
         break;
       case WATT_PREFIXES.KILO:
         setWattPrefix(WATT_PREFIXES.KILO);
@@ -80,7 +89,7 @@ export default function DeviceItem({ device, idx, dispatch }) {
   };
 
   return (
-    <div className="my-2 border-neutral-500 border-2 rounded-lg p-3">
+    <div className="my-2 border-neutral-500 border-2 rounded-lg p-3 w-fit">
       <div className="text-slate-600 text-xs">
         {idx} {JSON.stringify(device)}
       </div>
