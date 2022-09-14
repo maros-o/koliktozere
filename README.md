@@ -1,1 +1,7 @@
-dependencies: -D tailwindcss, chart.js, react-chartjs-2
+## dependencies
+
+```bash
+npm install -D tailwindcss
+npm install chart.js
+npm install react-chartjs-2
+```
