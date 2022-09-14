@@ -91,9 +91,6 @@ export default function DeviceItem({ device, idx, dispatch }) {
 
   return (
     <div className="my-2 border-neutral-500 border-2 rounded-lg p-3 w-fit">
-      <div className="text-slate-600 text-xs">
-        {idx} {JSON.stringify(device)}
-      </div>
       <label className="m-1">
         <input
           className="form-input px-4 py-1 rounded-lg text-center w-32"
@@ -101,6 +98,8 @@ export default function DeviceItem({ device, idx, dispatch }) {
           name="name"
           value={name}
           onChange={handleName}
+          onFocus={(e) => (e.target.value = "")}
+          onBlur={(e) => (e.target.value = name)}
         />
       </label>
 
@@ -162,3 +161,9 @@ export default function DeviceItem({ device, idx, dispatch }) {
     </div>
   );
 }
+
+/*
+      <div className="text-slate-600 text-xs">
+        {idx} {JSON.stringify(device)}
+      </div>
+*/
