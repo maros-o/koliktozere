@@ -5,7 +5,7 @@ import {
   ACTION_TYPES,
 } from "../components/GlobalVariables";
 
-export default function DeviceItem({ device, idx, dispatch }) {
+export default function DeviceItem({ device, idx, len, dispatch }) {
   const [name, setName] = useState(device.name);
   const [hours, setHours] = useState(device.hours);
   const [timeSpan, setTimeSpan] = useState(device.timeSpan);
@@ -32,10 +32,16 @@ export default function DeviceItem({ device, idx, dispatch }) {
         wattPrefix: wattPrefix,
       },
     });
-  }, [name, hours, timeSpan, watts, wattPrefix, dispatch, idx]);
+  }, [name, hours, timeSpan, watts, wattPrefix, idx, dispatch]);
+
+  useEffect(() => {
+    console.log("len: ", len);
+  }, [len]);
 
   const handleName = (e) => {
     const nameValue = e.target.value;
+    if (idx === len - 1 && nameValue !== "")
+      dispatch({ type: ACTION_TYPES.ADD });
     if (nameValue.length > 10) return;
     setName(nameValue);
   };
@@ -90,74 +96,102 @@ export default function DeviceItem({ device, idx, dispatch }) {
   };
 
   return (
-    <div className="my-2 border-neutral-500 border-2 rounded-lg p-3 w-fit">
-      <label className="m-1">
+    <div
+      className={`m-1 p-0 w-fit border-2 border-slate-400 bg-slate-100 rounded-lg sx:grid md:flex ${
+        idx === len - 1 && idx !== 0 ? "opacity-50" : ""
+      }`}
+    >
+      <div className="m-2 mb-3 mx-4 md:text-center">
+        <label className="block font-bold">Název</label>
         <input
-          className="form-input px-4 py-1 rounded-lg text-center w-32"
+          className={`px-4 py-1 rounded-lg text-center w-32 bg-slate-50 ${
+            name === "" && (idx !== len - 1 || idx === 0)
+              ? "border-rose-800 bg-rose-100"
+              : ""
+          }`}
           type="text"
+          placeholder={name}
           name="name"
           value={name}
           onChange={handleName}
           onFocus={(e) => (e.target.value = "")}
           onBlur={(e) => (e.target.value = name)}
         />
-      </label>
+      </div>
 
-      <label className="m-1 mr-0 ml-4">
-        <input
-          className="form-input px-4 py-1 rounded-lg w-24 text-center"
-          type="number"
-          name="hours"
-          value={hours}
-          onChange={handleHours}
-          step="1"
-        />
-        <span> hodin </span>
-      </label>
+      <div className="m-2 mb-3 mx-4 md:mx-6 md:text-center">
+        <label className="block font-bold">Doba v provozu</label>
+        <div className="flex md:justify-center items-center">
+          <input
+            className="form-input px-4 py-1 rounded-lg w-24 text-center bg-slate-50"
+            type="number"
+            name="hours"
+            value={hours}
+            onChange={handleHours}
+            step="1"
+          />
+          <span className="mx-1"> hodin </span>
 
-      <label className="m-1 ml-0">
-        <select
-          className="rounded-lg py-1"
-          id="timeSpan"
-          value={timeSpan}
-          onChange={handleTimeSpan}
-        >
-          <option>{TIME_SPANS.DAY}</option>
-          <option>{TIME_SPANS.WEEK}</option>
-          <option>{TIME_SPANS.MONTH}</option>
-        </select>
-      </label>
+          <select
+            className="rounded-lg py-1 bg-slate-50"
+            id="timeSpan"
+            value={timeSpan}
+            onChange={handleTimeSpan}
+          >
+            <option>{TIME_SPANS.DAY}</option>
+            <option>{TIME_SPANS.WEEK}</option>
+            <option>{TIME_SPANS.MONTH}</option>
+          </select>
+        </div>
+      </div>
 
-      <label className="m-1 ml-4">
-        <input
-          className="form-input px-4 py-1 rounded-lg w-24 text-center"
-          type="number"
-          name="watts"
-          value={watts}
-          onChange={handleWatts}
-          step="10"
-        />
-      </label>
+      <div className="m-2 mb-3 mx-4 md:text-center">
+        <label className="block font-bold">Příkon</label>
+        <div className="flex md:justify-center">
+          <input
+            className="mr-1 form-input px-4 py-1 rounded-lg w-24 text-center bg-slate-50"
+            type="number"
+            name="watts"
+            value={watts}
+            onChange={handleWatts}
+            step="10"
+          />
 
-      <label className="m-1">
-        <select
-          className="rounded-lg py-1"
-          id="wattPrefix"
-          value={wattPrefix}
-          onChange={handleWattPrefix}
-        >
-          <option>{WATT_PREFIXES.NONE}</option>
-          <option>{WATT_PREFIXES.KILO}</option>
-        </select>
-      </label>
-      <button
-        className="ml-3 border rounded-lg p-1 border-rose-800 bg-rose-100"
-        onClick={() => {
-          dispatch({ type: ACTION_TYPES.DELETE, idx: idx });
-        }}
-      >
-        Odebrat
-      </button>
+          <select
+            className="rounded-lg py-1 bg-slate-50"
+            value={wattPrefix}
+            onChange={handleWattPrefix}
+          >
+            <option>{WATT_PREFIXES.NONE}</option>
+            <option>{WATT_PREFIXES.KILO}</option>
+          </select>
+        </div>
+      </div>
+      {idx === len - 1 ? null : (
+        <div className="m-2 mx-4 flex justify-center">
+          <button
+            className="my-2 border rounded-lg p-1 border-rose-800 bg-rose-100 w-full flex justify-center items-center"
+            onClick={() => {
+              dispatch({ type: ACTION_TYPES.DELETE, idx: idx });
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+      )}
     </div>
   );
 }
@@ -166,4 +200,24 @@ export default function DeviceItem({ device, idx, dispatch }) {
       <div className="text-slate-600 text-xs">
         {idx} {JSON.stringify(device)}
       </div>
+
+      <button
+          className="ml-3 border rounded-lg p-1 border-blue-800 bg-blue-100"
+          onClick={() => {
+            dispatch({ type: ACTION_TYPES.CLEAR, idx: idx });
+          }}
+        >
+          Resetovat
+      </button>
+
+            {idx === len - 1 ? null : (
+        <button
+          className="ml-3 border rounded-lg p-1 border-rose-800 bg-rose-100"
+          onClick={() => {
+            dispatch({ type: ACTION_TYPES.DELETE, idx: idx });
+          }}
+        >
+          X
+        </button>
+      )}
 */

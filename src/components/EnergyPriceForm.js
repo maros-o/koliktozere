@@ -1,8 +1,11 @@
 import React from "react";
 
-export default function EnergyPriceForm( {energyPrice, handleEnergyPriceForm}) {
+export default function EnergyPriceForm({
+  energyPrice,
+  handleEnergyPriceForm,
+}) {
   return (
-    <div className="m-2 border rounded text-center">
+    <div className="m-2 text-center">
       <div className="p-2">
         <label className="mx-2">Kolik platíte za elektřinu?</label>
         <input

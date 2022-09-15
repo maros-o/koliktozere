@@ -16,5 +16,6 @@ export const ACTION_TYPES = {
   ADD: "add-device",
   EDIT: "edit-device",
   DELETE: "delete-device",
-  CLEAR: "clear-devices"
+  CLEAR: "clear-device",
+  CLEAR_ALL: "clear-devices",
 };

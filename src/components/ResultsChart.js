@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import { Pie } from "react-chartjs-2";
+import { Doughnut } from "react-chartjs-2";
 
 export default function ResultsChart({ devices }) {
   const [data, setData] = useState(null);
@@ -31,11 +31,13 @@ export default function ResultsChart({ devices }) {
     plugins: {
       datalabels: {
         color: "black",
-        font: { size: "12", weight: "" },
+        font: { size: "14", weight: "" },
         formatter: function (value, context) {
-          return devices[context.dataIndex]
-            ? devices[context.dataIndex].name + ": " + value + " Kč"
-            : "";
+          if (value > 0)
+            return devices[context.dataIndex]
+              ? devices[context.dataIndex].name // + ": " + value + " Kč"
+              : "";
+          else return "";
         },
       },
     },
@@ -43,9 +45,9 @@ export default function ResultsChart({ devices }) {
 
   return (
     <div className="grid justify-items-center">
-      <div className="w-1/2">
+      <div className="w-1/2 max-w-md">
         {data ? (
-          <Pie data={data} options={options} plugins={[ChartDataLabels]} />
+          <Doughnut data={data} options={options} plugins={[ChartDataLabels]} />
         ) : null}
       </div>
     </div>

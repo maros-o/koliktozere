@@ -3,10 +3,14 @@ import ResultsChart from "./ResultsChart";
 
 export default function Results({ results }) {
   return (
-    <div className="text-xl m-2 border rounded text-center">
-      Za elektřinu měsíčně zaplatíte přibližně {Math.round(results.totalCost)}{" "}
-      Kč
-      <ResultsChart devices={results.devices} />
+    <div>
+      <div className="text-xl md:text-2xl m-2 mt-5 mb-4 border rounded text-center">
+        Za elektřinu měsíčně zaplatíte přibližně {Math.round(results.totalCost)}
+        Kč
+      </div>
+      {results.devices.length > 1 ? (
+        <ResultsChart devices={results.devices} />
+      ) : null}
     </div>
   );
 }

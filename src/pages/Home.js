@@ -21,7 +21,7 @@ function reducer(state, action) {
     case ACTION_TYPES.INIT:
       if (localStorage.getItem("devices"))
         return { devices: JSON.parse(localStorage.getItem("devices")) };
-      return { devices: [] };
+      return { devices: [defaultDevice] };
     case ACTION_TYPES.ADD:
       return {
         devices: [...state.devices, defaultDevice],
@@ -38,6 +38,12 @@ function reducer(state, action) {
       };
     case ACTION_TYPES.CLEAR:
       return {
+        devices: state.devices.map((dev, idx) =>
+          idx === action.idx ? defaultDevice : dev
+        ),
+      };
+    case ACTION_TYPES.CLEAR_ALL:
+      return {
         devices: [],
       };
     default:
@@ -49,7 +55,9 @@ export default function Home() {
   const [energyPrice, setEnergyPrice] = useState(7);
   const [results, setResults] = useState(null);
 
-  const [{ devices }, dispatch] = useReducer(reducer, { devices: [] });
+  const [{ devices }, dispatch] = useReducer(reducer, {
+    devices: [defaultDevice],
+  });
 
   const loading = useRef(true);
 
@@ -66,28 +74,35 @@ export default function Home() {
     const calculateResults = () => {
       let totalCost = 0;
 
-      let resultDevices = devices.map((dev) => {
-        let hoursMultiplier = 1;
-        if (dev.timeSpan === TIME_SPANS.WEEK) hoursMultiplier = 4.28;
-        else if (dev.timeSpan === TIME_SPANS.DAY) hoursMultiplier = 30;
+      let resultDevices = devices
+        .filter(
+          (dev) =>
+            dev.name !== "" &&
+            dev.hours.toString() !== "0" &&
+            dev.watts.toString() !== "0"
+        )
+        .map((dev) => {
+          let hoursMultiplier = 1;
+          if (dev.timeSpan === TIME_SPANS.WEEK) hoursMultiplier = 4.28;
+          else if (dev.timeSpan === TIME_SPANS.DAY) hoursMultiplier = 30;
 
-        let wattsMultiplier = 0.001;
-        if (dev.wattPrefix === WATT_PREFIXES.KILO) wattsMultiplier = 1;
+          let wattsMultiplier = 0.001;
+          if (dev.wattPrefix === WATT_PREFIXES.KILO) wattsMultiplier = 1;
 
-        let devCost =
-          energyPrice *
-          dev.hours *
-          hoursMultiplier *
-          dev.watts *
-          wattsMultiplier;
+          let devCost =
+            energyPrice *
+            dev.hours *
+            hoursMultiplier *
+            dev.watts *
+            wattsMultiplier;
 
-        totalCost += devCost;
+          totalCost += devCost;
 
-        return {
-          name: dev.name,
-          cost: Math.round(devCost * 100) / 100,
-        };
-      });
+          return {
+            name: dev.name,
+            cost: Math.round(devCost * 100) / 100,
+          };
+        });
 
       resultDevices = resultDevices.map((dev) => {
         return {
@@ -112,8 +127,8 @@ export default function Home() {
   };
 
   return (
-    <div className="grid content-center justify-center font-mono m-0 border border-neutral-400">
-      <div className="text-4xl font-semibold text-center m-4 border rounded">
+    <div className="font-mono">
+      <div className="text-4xl font-semibold text-center m-4">
         KolikToŽere.cz
       </div>
       <EnergyPriceForm
@@ -121,14 +136,6 @@ export default function Home() {
         handleEnergyPriceForm={handleEnergyPriceForm}
       />
       <DeviceList devices={devices} dispatch={dispatch} />
-      <button
-        className="border rounded-lg border-green-400 bg-green-100 w-full p-4 my-2"
-        onClick={() => {
-          dispatch({ type: ACTION_TYPES.ADD });
-        }}
-      >
-        přidat spotřebič
-      </button>
       {results ? <Results results={results} /> : null}
     </div>
   );
