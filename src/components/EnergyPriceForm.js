@@ -6,7 +6,7 @@ export default function EnergyPriceForm({
 }) {
   return (
     <div className="text-xl p-2 text-center drop-shadow-2xl">
-      <label className="mx-2">Cena elektřiny za kW/h</label>
+      <label className="mx-3">Kolik platíte za kW/h?</label>
       <input
         className="text-md form-input px-4 py-1 rounded-lg w-16 md:w-24 text-center bg-slate-500/40 font-bold"
         type="number"
