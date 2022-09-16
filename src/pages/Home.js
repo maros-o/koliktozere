@@ -127,14 +127,14 @@ export default function Home() {
   };
 
   return (
-    <div className="font-sans bg-gradient-to-r from-slate-800 via-blue-800 to-slate-800 text-white w-full h-full">
+    <div className="font-sans bg-gradient-to-r from-slate-800 via-blue-600/30 to-slate-800 text-white w-full h-full">
       <EnergyPriceForm
         energyPrice={energyPrice}
         handleEnergyPriceForm={handleEnergyPriceForm}
       />
-      <hr className="border border-blue-400 md:w-2/3 md:mx-auto" />
+      <hr className="border border-blue-400/40 md:w-2/4 md:mx-auto" />
       <DeviceList devices={devices} dispatch={dispatch} />
-      <hr className="border border-blue-400 md:w-2/3 md:mx-auto" />
+      <hr className="border border-blue-400/40 md:w-2/4 md:mx-auto" />
       {results ? <Results results={results} /> : null}
     </div>
   );

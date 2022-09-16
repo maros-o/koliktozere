@@ -97,12 +97,12 @@ export default function DeviceItem({ device, idx, len, dispatch }) {
 
   return (
     <div
-      className={`m-1 p-0 w-fit border-2 rounded-lg border-slate-50/20 bg-slate-500/10 text-slate-100 sx:grid md:flex ${
+      className={`m-1 p-0 w-fit border-2 rounded-lg border-slate-50/20 bg-slate-500/10 text-slate-100 sx:grid md:flex drop-shadow-2xl ${
         idx === len - 1 && idx !== 0 ? "opacity-50" : ""
       }`}
     >
       <div className="m-2 mb-3 mx-4">
-        <label className="block font-bold">Název</label>
+        <label className="block font-bold ">Název spotřebiče</label>
         <input
           className={`px-4 py-1 rounded-lg text-center w-32 bg-slate-500/40 ${
             name === "" && (idx !== len - 1 || idx === 0)
@@ -146,7 +146,7 @@ export default function DeviceItem({ device, idx, len, dispatch }) {
       </div>
 
       <div className="m-2 mb-3 mx-4">
-        <label className="block font-bold">Příkon</label>
+        <label className="block font-bold">Příkon spotřebiče</label>
         <div className="flex md:justify-center">
           <input
             className="mr-1 form-input px-4 py-1 rounded-lg w-24 text-center bg-slate-500/40"
