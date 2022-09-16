@@ -52,7 +52,7 @@ function reducer(state, action) {
 }
 
 export default function Home() {
-  const [energyPrice, setEnergyPrice] = useState(7);
+  const [energyPrice, setEnergyPrice] = useState(8.02);
   const [results, setResults] = useState(null);
 
   const [{ devices }, dispatch] = useReducer(reducer, {
