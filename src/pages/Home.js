@@ -52,7 +52,11 @@ function reducer(state, action) {
 }
 
 export default function Home() {
-  const [energyPrice, setEnergyPrice] = useState(8.02);
+  const [energyPrice, setEnergyPrice] = useState(() =>
+    localStorage.getItem("energyPrice")
+      ? JSON.parse(localStorage.getItem("energyPrice"))
+      : 8.02
+  );
   const [results, setResults] = useState(null);
 
   const [{ devices }, dispatch] = useReducer(reducer, {
@@ -60,6 +64,10 @@ export default function Home() {
   });
 
   const loading = useRef(true);
+
+  useEffect(() => {
+    localStorage.setItem("energyPrice", JSON.stringify(energyPrice));
+  }, [energyPrice]);
 
   useEffect(() => {
     if (!loading.current) {
