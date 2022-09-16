@@ -3,9 +3,11 @@ import DeviceItem from "./DeviceItem";
 
 export default function DeviceList({ devices, dispatch }) {
   return (
-    <div className="grid justify-items-center bg-slate-100 pb-5">
-      <div className="text-2xl text-center m-2">Spotřebiče</div>
-      <div className="grid justify-items-left">
+    <div className="grid justify-items-center">
+      <div className="text-xl text-center font-semibold m-2">
+        Vaše spotřebiče
+      </div>
+      <div className="grid justify-items-left pb-4">
         {devices.map((dev, idx) => {
           return (
             <DeviceItem

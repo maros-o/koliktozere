@@ -97,14 +97,14 @@ export default function DeviceItem({ device, idx, len, dispatch }) {
 
   return (
     <div
-      className={`m-1 p-0 w-fit border-2 border-slate-400 bg-slate-100 rounded-lg sx:grid md:flex ${
+      className={`m-1 p-0 w-fit border-2 rounded-lg border-slate-50/20 bg-slate-500/10 text-slate-100 sx:grid md:flex ${
         idx === len - 1 && idx !== 0 ? "opacity-50" : ""
       }`}
     >
-      <div className="m-2 mb-3 mx-4 md:text-center">
+      <div className="m-2 mb-3 mx-4">
         <label className="block font-bold">Název</label>
         <input
-          className={`px-4 py-1 rounded-lg text-center w-32 bg-slate-50 ${
+          className={`px-4 py-1 rounded-lg text-center w-32 bg-slate-500/40 ${
             name === "" && (idx !== len - 1 || idx === 0)
               ? "border-rose-800 bg-rose-100"
               : ""
@@ -119,11 +119,11 @@ export default function DeviceItem({ device, idx, len, dispatch }) {
         />
       </div>
 
-      <div className="m-2 mb-3 mx-4 md:mx-6 md:text-center">
+      <div className="m-2 mb-3 mx-4 md:mx-6">
         <label className="block font-bold">Doba v provozu</label>
         <div className="flex md:justify-center items-center">
           <input
-            className="form-input px-4 py-1 rounded-lg w-24 text-center bg-slate-50"
+            className="form-input px-4 py-1 rounded-lg w-24 text-center bg-slate-500/40"
             type="number"
             name="hours"
             value={hours}
@@ -133,7 +133,7 @@ export default function DeviceItem({ device, idx, len, dispatch }) {
           <span className="mx-1"> hodin </span>
 
           <select
-            className="rounded-lg py-1 bg-slate-50"
+            className="rounded-lg py-1 bg-slate-500/40"
             id="timeSpan"
             value={timeSpan}
             onChange={handleTimeSpan}
@@ -145,11 +145,11 @@ export default function DeviceItem({ device, idx, len, dispatch }) {
         </div>
       </div>
 
-      <div className="m-2 mb-3 mx-4 md:text-center">
+      <div className="m-2 mb-3 mx-4">
         <label className="block font-bold">Příkon</label>
         <div className="flex md:justify-center">
           <input
-            className="mr-1 form-input px-4 py-1 rounded-lg w-24 text-center bg-slate-50"
+            className="mr-1 form-input px-4 py-1 rounded-lg w-24 text-center bg-slate-500/40"
             type="number"
             name="watts"
             value={watts}
@@ -158,7 +158,7 @@ export default function DeviceItem({ device, idx, len, dispatch }) {
           />
 
           <select
-            className="rounded-lg py-1 bg-slate-50"
+            className="rounded-lg py-1 bg-slate-500/40"
             value={wattPrefix}
             onChange={handleWattPrefix}
           >
@@ -170,7 +170,7 @@ export default function DeviceItem({ device, idx, len, dispatch }) {
       {idx === len - 1 ? null : (
         <div className="m-2 mx-4 flex justify-center">
           <button
-            className="my-2 border rounded-lg p-1 border-rose-800 bg-rose-100 w-full flex justify-center items-center"
+            className="my-3 border rounded-lg p-1 border-rose-800 bg-rose-500/70 w-full flex justify-center items-center"
             onClick={() => {
               dispatch({ type: ACTION_TYPES.DELETE, idx: idx });
             }}

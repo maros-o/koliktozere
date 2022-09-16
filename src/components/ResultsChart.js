@@ -11,14 +11,16 @@ export default function ResultsChart({ devices }) {
       labels: devices.map((dev) => dev.name),
       datasets: [
         {
-          label: "Spotřeba",
+          label: "spotřebiče",
           data: devices.map((dev) => Math.round(dev.cost)),
           backgroundColor: [
-            "rgb(240, 240, 100)",
-            "rgb(200, 50, 200)",
-            "rgb(100, 240, 200)",
+            "rgb(204, 235, 255)",
+            "rgb(102, 194, 255)",
+            "rgb(153, 220, 255)",
+            "rgb(77, 164, 255)",
+            "rgb(120, 184, 255)",
           ],
-          borderColor: "rgb(40, 40, 40)",
+          borderColor: "rgb(100, 100, 100)",
           borderWidth: "3",
         },
       ],
@@ -29,9 +31,14 @@ export default function ResultsChart({ devices }) {
 
   const options = {
     plugins: {
+      legend: {
+        labels: {
+          color: "rgb(220, 240, 255)",
+        },
+      },
       datalabels: {
-        color: "black",
-        font: { size: "14", weight: "" },
+        color: "rgb(0, 40, 80)",
+        font: { size: "17", weight: "bold" },
         formatter: function (value, context) {
           if (value > 0)
             return devices[context.dataIndex]

@@ -5,3 +5,7 @@
 html {
   overflow-y: scroll;
 }
+
+select option {
+  background-color: rgb(52, 74, 133);
+}
