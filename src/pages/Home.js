@@ -127,7 +127,7 @@ export default function Home() {
   };
 
   return (
-    <div className="font-sans bg-gradient-to-r from-slate-800 via-blue-600/30 to-slate-800 text-white w-full h-full">
+    <div className="font-sans bg-gradient-to-r from-slate-800 via-blue-400/30 to-slate-800 text-white w-full min-h-screen">
       <EnergyPriceForm
         energyPrice={energyPrice}
         handleEnergyPriceForm={handleEnergyPriceForm}

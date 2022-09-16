@@ -31,6 +31,7 @@ export default function ResultsChart({ devices }) {
 
   const options = {
     plugins: {
+      responsive: true,
       legend: {
         labels: {
           color: "rgb(220, 240, 255)",
@@ -38,7 +39,7 @@ export default function ResultsChart({ devices }) {
       },
       datalabels: {
         color: "rgb(0, 40, 80)",
-        font: { size: "17", weight: "bold" },
+        font: { size: "14", weight: "" },
         formatter: function (value, context) {
           if (value > 0)
             return devices[context.dataIndex]
@@ -52,7 +53,7 @@ export default function ResultsChart({ devices }) {
 
   return (
     <div className="grid justify-items-center">
-      <div className="w-1/2 max-w-md">
+      <div className="w-80 md:w-1/2 max-w-md">
         {data ? (
           <Doughnut data={data} options={options} plugins={[ChartDataLabels]} />
         ) : null}

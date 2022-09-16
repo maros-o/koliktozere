@@ -39,14 +39,14 @@ export default function DeviceItem({ device, idx, len, dispatch }) {
   }, [len]);
 
   const handleName = (e) => {
+    if (idx === len - 1) dispatch({ type: ACTION_TYPES.ADD });
     const nameValue = e.target.value;
-    if (idx === len - 1 && nameValue !== "")
-      dispatch({ type: ACTION_TYPES.ADD });
     if (nameValue.length > 10) return;
     setName(nameValue);
   };
 
   const handleHours = (e) => {
+    if (idx === len - 1) dispatch({ type: ACTION_TYPES.ADD });
     const hoursValue = e.target.value;
     if (hoursValue < 0) return;
     else if (timeSpan === TIME_SPANS.DAY && hoursValue > 24) return;
@@ -56,6 +56,7 @@ export default function DeviceItem({ device, idx, len, dispatch }) {
   };
 
   const handleTimeSpan = (e) => {
+    if (idx === len - 1) dispatch({ type: ACTION_TYPES.ADD });
     switch (e.target.value) {
       case TIME_SPANS.DAY:
         setTimeSpan(TIME_SPANS.DAY);
@@ -77,11 +78,13 @@ export default function DeviceItem({ device, idx, len, dispatch }) {
   };
 
   const handleWatts = (e) => {
+    if (idx === len - 1) dispatch({ type: ACTION_TYPES.ADD });
     const wattsValue = e.target.value;
     if (wattsValue >= 0) setWatts(wattsValue);
   };
 
   const handleWattPrefix = (e) => {
+    if (idx === len - 1) dispatch({ type: ACTION_TYPES.ADD });
     switch (e.target.value) {
       case WATT_PREFIXES.NONE:
         setWattPrefix(WATT_PREFIXES.NONE);
@@ -102,11 +105,11 @@ export default function DeviceItem({ device, idx, len, dispatch }) {
       }`}
     >
       <div className="m-2 mb-3 mx-4">
-        <label className="block font-bold ">Název spotřebiče</label>
+        <label className="block font-semibold ">Název spotřebiče</label>
         <input
           className={`px-4 py-1 rounded-lg text-center w-32 bg-slate-500/40 ${
             name === "" && (idx !== len - 1 || idx === 0)
-              ? "border-rose-800 bg-rose-100"
+              ? "border-rose-800 bg-rose-400/60"
               : ""
           }`}
           type="text"
@@ -120,7 +123,7 @@ export default function DeviceItem({ device, idx, len, dispatch }) {
       </div>
 
       <div className="m-2 mb-3 mx-4 md:mx-6">
-        <label className="block font-bold">Doba v provozu</label>
+        <label className="block font-semibold">Doba v provozu</label>
         <div className="flex md:justify-center items-center">
           <input
             className="form-input px-4 py-1 rounded-lg w-24 text-center bg-slate-500/40"
@@ -146,7 +149,7 @@ export default function DeviceItem({ device, idx, len, dispatch }) {
       </div>
 
       <div className="m-2 mb-3 mx-4">
-        <label className="block font-bold">Příkon spotřebiče</label>
+        <label className="block font-semibold">Příkon spotřebiče</label>
         <div className="flex md:justify-center">
           <input
             className="mr-1 form-input px-4 py-1 rounded-lg w-24 text-center bg-slate-500/40"
