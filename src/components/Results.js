@@ -14,9 +14,3 @@ export default function Results({ results }) {
     </div>
   );
 }
-
-/*
-<div className="text-slate-600 text-xs w-max">
-        {JSON.stringify(results.devices)}
-      </div>
-*/

@@ -147,18 +147,3 @@ export default function Home() {
     </div>
   );
 }
-
-/*
-      <div className="text-4xl font-semibold text-center m-4">
-        KolikToŽere.cz
-      </div>
-
-      <button
-        className="border rounded-lg border-rose-400 bg-rose-100 w-full p-4 my-2"
-        onClick={() => {
-          dispatch({ type: ACTION_TYPES.CLEAR });
-        }}
-      >
-        smazat vše
-      </button> 
-*/

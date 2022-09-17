@@ -34,10 +34,6 @@ export default function DeviceItem({ device, idx, len, dispatch }) {
     });
   }, [name, hours, timeSpan, watts, wattPrefix, idx, dispatch]);
 
-  useEffect(() => {
-    console.log("len: ", len);
-  }, [len]);
-
   const handleName = (e) => {
     if (idx === len - 1) dispatch({ type: ACTION_TYPES.ADD });
     const nameValue = e.target.value;
@@ -198,29 +194,3 @@ export default function DeviceItem({ device, idx, len, dispatch }) {
     </div>
   );
 }
-
-/*
-      <div className="text-slate-600 text-xs">
-        {idx} {JSON.stringify(device)}
-      </div>
-
-      <button
-          className="ml-3 border rounded-lg p-1 border-blue-800 bg-blue-100"
-          onClick={() => {
-            dispatch({ type: ACTION_TYPES.CLEAR, idx: idx });
-          }}
-        >
-          Resetovat
-      </button>
-
-            {idx === len - 1 ? null : (
-        <button
-          className="ml-3 border rounded-lg p-1 border-rose-800 bg-rose-100"
-          onClick={() => {
-            dispatch({ type: ACTION_TYPES.DELETE, idx: idx });
-          }}
-        >
-          X
-        </button>
-      )}
-*/
